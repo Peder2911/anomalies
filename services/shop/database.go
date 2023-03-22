@@ -8,10 +8,13 @@ var tables = []string {
       `
       create table if not exists users (
          id       integer  primary key,
-         last_login int not null,
+         last_login int,
          name     text not null,
          password text not null
       )
+      `,
+      `
+      insert into users (name, password) values ('admin', 'admin')
       `,
       `
       create table if not exists products (
@@ -41,12 +44,8 @@ var tables = []string {
       `,
 }
 
-func initialize_database() error {
-   con, err := sql.Open("sqlite3","./shop.db")
-   if err != nil {
-      return err
-   }
-
+func initialize_database(con *sql.DB) error {
+   var err error
    for _,s := range tables {
       _, err = con.Exec(s)
       if err != nil {
