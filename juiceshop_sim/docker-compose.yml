@@ -1,0 +1,10 @@
+services:
+  reverse-proxy:
+    image: nginx:1.23.4
+    volumes:
+      - ./nginx.conf:/etc/nginx/conf.d/default.conf 
+      - ./logs:/var/log/nginx
+    ports:
+      - "8000:80"
+  juiceshop:
+    image: bkimminich/juice-shop
